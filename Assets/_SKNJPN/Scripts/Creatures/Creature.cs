@@ -45,7 +45,7 @@ public class Creature : MonoBehaviour
 
         if (Random.Range(0, 100) < 10)
         {
-            var length = 8.0f;
+            var length = 6.0f;
             var positionMin = planet.GetArea(transform.position - Vector3.one * length).position;
             var positionMax = planet.GetArea(transform.position + Vector3.one * length).position;
 

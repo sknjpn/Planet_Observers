@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [SerializeField] float waterHeight = 64.0f;
-    [SerializeField] float size = 16.0f;
+    [SerializeField] float waterHeight = 8.0f;
+    [SerializeField] float size = 12.0f;
     List<Creature>[,,] creatures;
 
     public int ArrayLength { get { return 2 * Mathf.CeilToInt(size); } }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
@@ -41,11 +42,5 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.S)) { rigidbody.AddForce(speed * -transform.forward, ForceMode.Acceleration); }
             if (Input.GetKey(KeyCode.D)) { rigidbody.AddForce(speed * transform.right, ForceMode.Acceleration); }
         }
-
-    }
-
-    void Update()
-    {
-
     }
 }

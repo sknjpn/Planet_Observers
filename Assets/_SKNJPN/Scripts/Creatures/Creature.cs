@@ -10,7 +10,7 @@ public class Creature : MonoBehaviour
 
     void Start()
     {
-        size = (Vector3.one * 0.25f + Random.Range(0.5f, 2.0f) * transform.localScale) / 2.0f;
+        size = (Vector3.one + Random.Range(0.5f, 2.0f) * transform.localScale) / 2.0f;
         transform.localScale = Vector3.zero;
 
         planet = GetComponentInParent<Planet>();
@@ -38,14 +38,14 @@ public class Creature : MonoBehaviour
         {
             energy = 0f;
             var c = MakeChild();
-            var distance = 2.0f;
+            var distance = 16.0f;
 
             c.transform.position += new Vector3(Random.Range(-distance, distance), Random.Range(-distance, distance), Random.Range(-distance, distance));
         }
 
         if (Random.Range(0, 100) < 10)
         {
-            var length = 1.0f;
+            var length = 8.0f;
             var positionMin = planet.GetArea(transform.position - Vector3.one * length).position;
             var positionMax = planet.GetArea(transform.position + Vector3.one * length).position;
 
@@ -61,7 +61,7 @@ public class Creature : MonoBehaviour
                         {
                             if (c != this)
                             {
-                                c.energy -= 0.25f * Mathf.Max(0.0f, 1.0f - Vector3.Distance(c.transform.position, transform.position));
+                                c.energy -= 0.25f * Mathf.Max(0.0f, length - Vector3.Distance(c.transform.position, transform.position));
                             }
                         }
                     }

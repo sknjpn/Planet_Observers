@@ -21,9 +21,9 @@ public class Player : MonoBehaviour
         {
             rigidbody.velocity = transform.up * Vector3.Dot(rigidbody.velocity, transform.up);
 
-            if (Input.GetKey(KeyCode.Space)) { rigidbody.velocity = 2.5f * transform.up; }
+            if (Input.GetKey(KeyCode.Space)) { rigidbody.velocity = 10f * transform.up; }
 
-            var speed = Input.GetKey(KeyCode.LeftShift) ? 50f : 25f;
+            var speed = Input.GetKey(KeyCode.LeftShift) ? 200f : 100f;
 
             if (Input.GetKey(KeyCode.W)) { rigidbody.AddForce(speed * transform.forward, ForceMode.Acceleration); }
             if (Input.GetKey(KeyCode.A)) { rigidbody.AddForce(speed * -transform.right, ForceMode.Acceleration); }

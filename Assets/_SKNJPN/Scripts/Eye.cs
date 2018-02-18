@@ -1,19 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Eye : MonoBehaviour
 {
-    [SerializeField] float sy = 10f;
-    float angle = 0;
+    [SerializeField] float sensitivity = 10f;
+    [SerializeField] Transform player;
+    Vector2 angle;
+
+    void Start()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     void Update()
     {
-        angle -= sy * Input.GetAxis("Mouse Y");
+        angle.x += sensitivity * Input.GetAxis("Mouse X");
+        angle.y -= sensitivity * Input.GetAxis("Mouse Y");
 
-        Debug.Log(angle);
-        if (angle < -80) { angle = -80; }
-        if (angle > 80) { angle = 80; }
+        angle.y = Mathf.Clamp(angle.y, -80, 80);
 
-        transform.localRotation = Quaternion.Euler(angle, 0, 0);
+        transform.localRotation = Quaternion.Euler(angle.y, 0, 0);
+
+        player.rotation = Quaternion.AngleAxis(angle.x, transform.position.normalized) * Quaternion.FromToRotation(Vector3.up, transform.position.normalized);
     }
 }

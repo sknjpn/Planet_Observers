@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-//[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    Rigidbody rigidbody;
     [SerializeField] Foot foot;
-    [SerializeField] float sx = 10f;
-    [SerializeField] float angle = 0;
+    Rigidbody rigidbody;
 
     void Start()
     {
@@ -50,7 +46,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        angle += sx * Input.GetAxis("Mouse X");
-        transform.rotation = Quaternion.AngleAxis(angle, transform.position.normalized) * Quaternion.FromToRotation(Vector3.up, transform.position.normalized);
+
     }
 }

@@ -19,9 +19,9 @@ public class Player : MonoBehaviour
     {
         if (foot.OnGround)
         {
-            rigidbody.velocity = Vector3.zero;
+            rigidbody.velocity = transform.up * Vector3.Dot(rigidbody.velocity, transform.up);
 
-            if (Input.GetKey(KeyCode.Space)) { rigidbody.AddForce(2.0f * transform.position.normalized, ForceMode.VelocityChange); }
+            if (Input.GetKey(KeyCode.Space)) { rigidbody.velocity = 2.5f * transform.up; }
 
             var speed = Input.GetKey(KeyCode.LeftShift) ? 50f : 25f;
 

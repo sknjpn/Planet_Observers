@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Creature : MonoBehaviour
 {
     Planet planet;
-    float energy;
     Vector3 size;
+    float energy;
 
     float Height { get { return transform.position.magnitude; } }
 
@@ -20,14 +18,14 @@ public class Creature : MonoBehaviour
         transform.position = transform.position.normalized * planet.GetHeight(transform.position);
         transform.LookAt(transform.position + planet.GetNormal(transform.position));
 
-        planet.AddCreature(this);
+        planet.AddObject(transform);
 
         if (Height < planet.WaterHeight) { Destroy(gameObject); }
     }
 
     void OnDestroy()
     {
-        planet.RemoveCreature(this);
+        planet.RemoveObject(transform);
     }
 
     void FixedUpdate()
@@ -45,19 +43,26 @@ public class Creature : MonoBehaviour
             c.transform.position += new Vector3(Random.Range(-distance, distance), Random.Range(-distance, distance), Random.Range(-distance, distance));
         }
 
-        var p = Vector3Int.FloorToInt(transform.position) + Vector3Int.one * (planet.ArrayLength / 2);
-
-        for (var x = -1; x <= 1; x++)
+        if (Random.Range(0, 100) < 10)
         {
-            for (var y = -1; y <= 1; y++)
+            var length = 1.0f;
+            var positionMin = planet.GetArea(transform.position - Vector3.one * length).position;
+            var positionMax = planet.GetArea(transform.position + Vector3.one * length).position;
+
+            for (var x = positionMin.x; x <= positionMax.x; x++)
             {
-                for (var z = -1; z <= 1; z++)
+                for (var y = positionMin.y; y <= positionMax.y; y++)
                 {
-                    foreach (var c in planet.Creatures[p.x + x, p.y + y, p.z + z])
+                    for (var z = positionMin.z; z <= positionMax.z; z++)
                     {
-                        if (c != this)
+                        var area = planet.Areas[x, y, z];
+
+                        foreach (var c in area.creatures)
                         {
-                            c.energy -= 0.025f * Mathf.Max(0.0f, 1.0f - Vector3.Distance(c.transform.position, transform.position));
+                            if (c != this)
+                            {
+                                c.energy -= 0.25f * Mathf.Max(0.0f, 1.0f - Vector3.Distance(c.transform.position, transform.position));
+                            }
                         }
                     }
                 }

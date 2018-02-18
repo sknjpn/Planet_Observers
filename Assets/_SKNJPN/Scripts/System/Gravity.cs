@@ -13,7 +13,7 @@ public class Gravity : MonoBehaviour
     void Update()
     {
         var r = transform.position.magnitude;
-        var k = 100.0f;
+        var k = 1000.0f;
 
         rigidbody.AddForce(-transform.position.normalized * k * Mathf.Pow(r, -2), ForceMode.Acceleration);
     }

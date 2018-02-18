@@ -1,58 +1,62 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [SerializeField] float waterHeight = 8.0f;
-    [SerializeField] float size = 12.0f;
-    List<Creature>[,,] creatures;
+    [SerializeField] float waterHeight = 16.0f;
+    [SerializeField] float maximumHeight = 24.0f;
+    [SerializeField] float areaSize = 0.5f;
+    Area[,,] areas;
 
-    public int ArrayLength { get { return 2 * Mathf.CeilToInt(size); } }
     public float WaterHeight { get { return waterHeight; } }
-    public List<Creature>[,,] Creatures { get { return creatures; } }
+    public Area[,,] Areas { get { return areas; } }
 
     void Awake()
     {
-        creatures = new List<Creature>[ArrayLength, ArrayLength, ArrayLength];
+        var length = Mathf.CeilToInt(2 * maximumHeight / areaSize);
 
-        for (var x = 0; x < ArrayLength; x++)
+        areas = new Area[length, length, length];
+
+        for (var x = 0; x < length; x++)
         {
-            for (var y = 0; y < ArrayLength; y++)
+            for (var y = 0; y < length; y++)
             {
-                for (var z = 0; z < ArrayLength; z++)
+                for (var z = 0; z < length; z++)
                 {
-                    creatures[x, y, z] = new List<Creature>();
+                    areas[x, y, z].Set(new Vector3Int(x, y, z));
                 }
             }
         }
     }
 
+    public Area GetArea(Vector3 _position)
+    {
+        var p = Vector3Int.FloorToInt((_position + Vector3.one * maximumHeight) / areaSize);
+
+        return areas[p.x, p.y, p.z];
+    }
+
+    public void AddObject(Transform _transform)
+    {
+        GetArea(_transform.position).AddObject(_transform);
+    }
+
+    public void RemoveObject(Transform _transform)
+    {
+        GetArea(_transform.position).RemoveObject(_transform);
+    }
+
     public float GetHeight(Vector3 _position)
     {
-        var hits = Physics.RaycastAll(_position.normalized * size, -_position.normalized);
+        var hits = Physics.RaycastAll(_position.normalized * maximumHeight, -_position.normalized);
 
         return hits.First(hit => hit.transform == transform).point.magnitude;
     }
 
     public Vector3 GetNormal(Vector3 _position)
     {
-        var hits = Physics.RaycastAll(_position.normalized * size, -_position.normalized);
+        var hits = Physics.RaycastAll(_position.normalized * maximumHeight, -_position.normalized);
 
         return hits.First(hit => hit.transform == transform).normal;
-    }
-
-    public void AddCreature(Creature _creature)
-    {
-        var p = Vector3Int.FloorToInt(_creature.transform.position) + Vector3Int.one * (ArrayLength / 2);
-
-        creatures[p.x, p.y, p.z].Add(_creature);
-    }
-
-    public void RemoveCreature(Creature _creature)
-    {
-        var p = Vector3Int.FloorToInt(_creature.transform.position) + Vector3Int.one * (ArrayLength / 2);
-
-        creatures[p.x, p.y, p.z].Remove(_creature);
     }
 }

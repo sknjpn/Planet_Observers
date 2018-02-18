@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Foot : MonoBehaviour
 {
@@ -10,11 +8,11 @@ public class Foot : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Planet>() != null) { onGround = true; }
+        if (other.GetComponent<Planet>()) { onGround = true; }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Planet>() != null) { onGround = false; }
+        if (other.GetComponent<Planet>()) { onGround = false; }
     }
 }

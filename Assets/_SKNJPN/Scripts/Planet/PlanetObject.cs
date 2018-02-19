@@ -2,14 +2,23 @@
 
 public class PlanetObject : MonoBehaviour
 {
+    public Planet planet;
     public Area area;
     public Creature creature;
+    public Plant plant;
+    public Animal animal;
+    public Clematis clematis;
 
     void Start()
     {
-        creature = GetComponent<Creature>();
+        planet = GetComponentInParent<Planet>();
 
-        area = GetComponentInParent<Planet>().GetArea(transform.position);
+        clematis = GetComponent<Clematis>();
+        creature = GetComponent<Creature>();
+        plant = GetComponent<Plant>();
+        animal = GetComponent<Animal>();
+
+        area = planet.GetArea(transform.position);
 
         if (area != null) { area.AddPlanetObject(this); }
     }

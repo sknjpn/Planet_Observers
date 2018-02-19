@@ -7,6 +7,8 @@ public class MainCamera : MonoBehaviour
     float length;
     float targetLength;
 
+    public Vector3 TargetPosition { set { targetPosition = value; } }
+
     void Start()
     {
         length = transform.position.magnitude;

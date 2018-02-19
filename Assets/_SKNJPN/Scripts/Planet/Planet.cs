@@ -8,6 +8,7 @@ public class Planet : MonoBehaviour
     [SerializeField] float waterHeight = 16.0f;
     [SerializeField] float areaSize = 0.5f;
     Area[,,] areaGrid;
+    List<PlanetObject> planetObjects;
 
     public float MaximumHeight { get { return maximumHeight; } }
     public float WaterHeight { get { return waterHeight; } }
@@ -31,18 +32,26 @@ public class Planet : MonoBehaviour
             }
         }
     }
-    /*
+
     void FixedUpdate()
     {
-        foreach (var area in areaGrid)
+        if (Time.frameCount % 5 == 0)
         {
-            for (var i = 0; i < area.planetObjects.Count; i++)
+            var areaEnergy = 0.1f;
+
+            foreach (var area in areaGrid)
             {
-                RemovePlanetObject(area.transforms[i].gameObject);
+                var plants = area.planetObjects.FindAll(po => po.plant != null);
+
+                if (plants.Count > 0)
+                {
+                    var plant = plants[Random.Range(0, plants.Count - 1)].plant;
+
+                    plant.Energy += areaEnergy;
+                }
             }
         }
     }
-    */
 
     public Area GetArea(Vector3 _position)
     {

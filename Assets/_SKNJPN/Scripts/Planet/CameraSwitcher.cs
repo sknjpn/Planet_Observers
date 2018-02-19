@@ -12,6 +12,11 @@ public class CameraSwitcher : MonoBehaviour
         {
             mainCamera.gameObject.SetActive(!mainCamera.gameObject.activeSelf);
             playerCamera.gameObject.SetActive(!mainCamera.gameObject.activeSelf);
+
+            if(mainCamera.gameObject.activeSelf)
+            {
+                mainCamera.GetComponent<MainCamera>().TargetPosition = playerCamera.transform.position;
+            }
         }
     }
 }

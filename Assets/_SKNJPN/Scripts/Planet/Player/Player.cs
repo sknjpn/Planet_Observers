@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (foot.OnGround)
+        if (foot.OnGround || transform.position.magnitude <= GetComponentInParent<Planet>().WaterHeight)
         {
             rigidbody.velocity = transform.up * Vector3.Dot(rigidbody.velocity, transform.up);
 
@@ -28,6 +28,11 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.A)) { rigidbody.AddForce(speed * -transform.right, ForceMode.VelocityChange); }
             if (Input.GetKey(KeyCode.S)) { rigidbody.AddForce(speed * -transform.forward, ForceMode.VelocityChange); }
             if (Input.GetKey(KeyCode.D)) { rigidbody.AddForce(speed * transform.right, ForceMode.VelocityChange); }
+        }
+        if(transform.position.magnitude <= GetComponentInParent<Planet>().WaterHeight)
+        {
+            transform.position = transform.position.normalized * GetComponentInParent<Planet>().WaterHeight;
+            rigidbody.velocity /= 1.05f;
         }
     }
 }

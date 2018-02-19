@@ -1,67 +1,47 @@
 ﻿using UnityEngine;
 
-public class Clematis : Plant
+public sealed class Clematis : Plant
 {
-    Planet planet;
+    PlanetObject planetObject;
 
     void Start()
     {
-        planet = GetComponent<PlanetObject>().planet;
-        size = (Vector3.one + Random.Range(0.5f, 2.0f) * transform.localScale) / 2.0f;
-        transform.localScale = Vector3.zero;
+        planetObject = GetComponent<PlanetObject>();
 
-        planet = GetComponentInParent<Planet>();
+        transform.position = transform.position.normalized * planetObject.planet.GetHeight(transform.position);
+        transform.LookAt(transform.position + planetObject.planet.GetNormal(transform.position));
 
-        transform.position = transform.position.normalized * planet.GetHeight(transform.position);
-        transform.LookAt(transform.position + planet.GetNormal(transform.position));
-
-        if (Height < planet.WaterHeight) { Destroy(gameObject); }
-        energy = 0.5f;
+        if (Height < planetObject.planet.WaterHeight) { Destroy(gameObject); }
+        energy = 0.0f;
     }
 
-    void FixedUpdate()
+    public override void UpdatePlant()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, size, 0.1f);
-
-        energy -= 0.01f;
+        age++;
+        energy += 0.5f;
 
         if (energy > 1.0f)
         {
-            energy = 0.5f;
+            energy -= 1.0f;
+
             var c = MakeChild();
-            var distance = 16.0f;
+            var distance = 24.0f;
 
-            c.transform.position += new Vector3(Random.Range(-distance, distance), Random.Range(-distance, distance), Random.Range(-distance, distance));
+            c.transform.position += distance * new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
         }
-        /*
-        if (Random.Range(0, 100) < 10)
+
         {
-            var length = 6.0f;
-            var positionMin = planet.GetArea(transform.position - Vector3.one * length).position;
-            var positionMax = planet.GetArea(transform.position + Vector3.one * length).position;
+            var length = 12.0f;
 
-            for (var x = positionMin.x; x <= positionMax.x; x++)
+            planetObject.ForEachToNear(length, po =>
             {
-                for (var y = positionMin.y; y <= positionMax.y; y++)
+                if (po.plant != null && po.plant != this)
                 {
-                    for (var z = positionMin.z; z <= positionMax.z; z++)
-                    {
-                        var area = planet.AreaGrid[x, y, z];
-
-                        foreach (var po in area.planetObjects)
-                        {
-                            var c = po.clematis;
-
-                            if (c != null && c != this)
-                            {
-                                c.energy -= 0.25f * Mathf.Max(0.0f, length - Vector3.Distance(c.transform.position, transform.position));
-                            }
-                        }
-                    }
+                    energy -= 0.5f * Mathf.Max(0, 1.0f - (PlanetObject.Distance(planetObject, po) / length));
                 }
-            }
-        }*/
+            });
+        }
 
-        if (energy < 0) { Destroy(gameObject); }
+        if (energy < 0 || age >= 5) { Destroy(gameObject); }
     }
 }

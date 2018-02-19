@@ -3,8 +3,8 @@
 [RequireComponent(typeof(PlanetObject))]
 public class Creature : MonoBehaviour
 {
-    protected Vector3 size;
     protected float energy;
+    protected int age;
 
     public float Height { get { return transform.position.magnitude; } }
     public float Energy { get { return energy; } set { energy = value; } }

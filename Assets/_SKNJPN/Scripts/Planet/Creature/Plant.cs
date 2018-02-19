@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class Plant : Creature
+﻿public class Plant : Creature
 {
-
+    public virtual void UpdatePlant() { }
 }

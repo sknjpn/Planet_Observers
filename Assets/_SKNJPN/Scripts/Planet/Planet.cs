@@ -1,21 +1,24 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [SerializeField] float waterHeight = 16.0f;
     [SerializeField] float maximumHeight = 24.0f;
+    [SerializeField] float waterHeight = 16.0f;
     [SerializeField] float areaSize = 0.5f;
-    Area[,,] areas;
+    Area[,,] areaGrid;
 
+    public float MaximumHeight { get { return maximumHeight; } }
     public float WaterHeight { get { return waterHeight; } }
-    public Area[,,] Areas { get { return areas; } }
+    public float AreaSize { get { return areaSize; } }
+    public Area[,,] AreaGrid { get { return areaGrid; } }
 
     void Awake()
     {
         var length = Mathf.CeilToInt(2 * maximumHeight / areaSize);
 
-        areas = new Area[length, length, length];
+        areaGrid = new Area[length, length, length];
 
         for (var x = 0; x < length; x++)
         {
@@ -23,27 +26,29 @@ public class Planet : MonoBehaviour
             {
                 for (var z = 0; z < length; z++)
                 {
-                    areas[x, y, z].Set(new Vector3Int(x, y, z));
+                    areaGrid[x, y, z] = new Area(new Vector3Int(x, y, z));
                 }
             }
         }
     }
+    /*
+    void FixedUpdate()
+    {
+        foreach (var area in areaGrid)
+        {
+            for (var i = 0; i < area.planetObjects.Count; i++)
+            {
+                RemovePlanetObject(area.transforms[i].gameObject);
+            }
+        }
+    }
+    */
 
     public Area GetArea(Vector3 _position)
     {
         var p = Vector3Int.FloorToInt((_position + Vector3.one * maximumHeight) / areaSize);
 
-        return areas[p.x, p.y, p.z];
-    }
-
-    public void AddObject(Transform _transform)
-    {
-        GetArea(_transform.position).AddObject(_transform);
-    }
-
-    public void RemoveObject(Transform _transform)
-    {
-        GetArea(_transform.position).RemoveObject(_transform);
+        return areaGrid[p.x, p.y, p.z];
     }
 
     public float GetHeight(Vector3 _position)

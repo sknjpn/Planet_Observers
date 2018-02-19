@@ -8,19 +8,25 @@ ModelImporter:
     100000: //RootNode
     100002: Planet
     100004: Water
+    100006: Area
     400000: //RootNode
     400002: Planet
     400004: Water
+    400006: Area
     2100000: Water
     2100002: Rock
     2100004: Snow
     2100006: Lawn
+    2100008: unnamed
     2300000: Planet
     2300002: Water
+    2300004: Area
     3300000: Planet
     3300002: Water
+    3300004: Area
     4300000: Water
     4300002: Planet
+    4300004: Area
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}

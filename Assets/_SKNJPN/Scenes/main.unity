@@ -177,7 +177,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &45044550
 MonoBehaviour:
@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 109889680}
   - component: {fileID: 109889679}
   - component: {fileID: 109889678}
+  - component: {fileID: 109889681}
   m_Layer: 0
   m_Name: Clematis
   m_TagString: Untagged
@@ -277,6 +278,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 109889676}
   m_Mesh: {fileID: 4300000, guid: 57c1e33ba3740cb47aa9d80cf3558858, type: 3}
+--- !u!114 &109889681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 109889676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578fdbab371e05c42b8eb0e6336763db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creature: {fileID: 0}
 --- !u!1 &214972781
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,8 +320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ae6719171287c45b750ec21070f263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterHeight: 128
   maximumHeight: 160
+  waterHeight: 128
   areaSize: 8
 --- !u!23 &214972783
 MeshRenderer:
@@ -369,7 +382,7 @@ Transform:
   - {fileID: 785145265}
   - {fileID: 482359903}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &214972786
 MeshCollider:
@@ -415,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66632543a7050454997d9610be5abf69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planet: {fileID: 214972782}
 --- !u!81 &255400236
 AudioListener:
   m_ObjectHideFlags: 0
@@ -471,13 +485,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 255400234}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -16}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -256, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &482359902
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +504,7 @@ GameObject:
   - component: {fileID: 482359908}
   - component: {fileID: 482359906}
   - component: {fileID: 482359904}
+  - component: {fileID: 482359907}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -550,6 +565,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foot: {fileID: 1968474385}
+--- !u!114 &482359907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 482359902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578fdbab371e05c42b8eb0e6336763db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creature: {fileID: 0}
 --- !u!136 &482359908
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -658,6 +685,48 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &629553893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 629553895}
+  - component: {fileID: 629553894}
+  m_Layer: 0
+  m_Name: CameraSwitcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &629553894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 629553893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40405576bb0b1c2478782430ba5caf28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 255400238}
+  playerCamera: {fileID: 489569192}
+--- !u!4 &629553895
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 629553893}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &785145264
 GameObject:
   m_ObjectHideFlags: 0

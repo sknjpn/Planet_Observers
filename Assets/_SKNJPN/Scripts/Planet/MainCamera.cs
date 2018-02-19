@@ -2,6 +2,7 @@
 
 public class MainCamera : MonoBehaviour
 {
+    [SerializeField] Planet planet;
     Vector3 targetPosition;
     float length;
     float targetLength;
@@ -15,7 +16,10 @@ public class MainCamera : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             RaycastHit hit;
 
@@ -24,6 +28,8 @@ public class MainCamera : MonoBehaviour
         }
 
         targetLength *= (1.0f - Input.GetAxis("Mouse ScrollWheel"));
+
+        targetLength = Mathf.Clamp(targetLength, planet.GetHeight(transform.position) + 4f, planet.MaximumHeight * 2f);
 
         length = Mathf.Lerp(length, targetLength, 0.1f);
 

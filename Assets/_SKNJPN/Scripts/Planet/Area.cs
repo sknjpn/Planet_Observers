@@ -1,30 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public struct Area
+public class Area
 {
     public Vector3Int position;
-    public List<Transform> transforms;
-    public List<Creature> creatures;
+    public List<PlanetObject> planetObjects = new List<PlanetObject>();
 
-    public void Set(Vector3Int _position)
+    public Area(Vector3Int _position)
     {
         position = _position;
-        transforms = new List<Transform>();
-        creatures = new List<Creature>();
     }
 
-    public void AddObject(Transform _transform)
+    public void AddPlanetObject(PlanetObject _planetObject)
     {
-        transforms.Add(_transform);
-
-        if (_transform.HasComponent<Creature>()) { creatures.Add(_transform.GetComponent<Creature>()); }
+        planetObjects.Add(_planetObject);
     }
 
-    public void RemoveObject(Transform _transform)
+    public void RemovePlanetObject(PlanetObject _planetObject)
     {
-        transforms.Remove(_transform);
-
-        if (_transform.HasComponent<Creature>()) { creatures.Remove(_transform.GetComponent<Creature>()); }
+        planetObjects.Remove(_planetObject);
     }
 }

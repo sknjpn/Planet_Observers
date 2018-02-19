@@ -8,11 +8,11 @@ public class Foot : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Planet>()) { onGround = true; }
+        if (other.HasComponent<Planet>()) { onGround = true; }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Planet>()) { onGround = false; }
+        if (other.HasComponent<Planet>()) { onGround = false; }
     }
 }

@@ -6,14 +6,11 @@ public class Eye : MonoBehaviour
     [SerializeField] Transform player;
     Vector2 angle;
 
-    void Start()
+    void Update()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-    }
 
-    void Update()
-    {
         angle.x += sensitivity * Input.GetAxis("Mouse X");
         angle.y -= sensitivity * Input.GetAxis("Mouse Y");
 

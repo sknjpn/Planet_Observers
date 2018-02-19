@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(PlanetObject))]
 public class Creature : MonoBehaviour
 {
     Planet planet;
@@ -18,14 +19,7 @@ public class Creature : MonoBehaviour
         transform.position = transform.position.normalized * planet.GetHeight(transform.position);
         transform.LookAt(transform.position + planet.GetNormal(transform.position));
 
-        planet.AddObject(transform);
-
         if (Height < planet.WaterHeight) { Destroy(gameObject); }
-    }
-
-    void OnDestroy()
-    {
-        planet.RemoveObject(transform);
     }
 
     void FixedUpdate()
@@ -55,11 +49,13 @@ public class Creature : MonoBehaviour
                 {
                     for (var z = positionMin.z; z <= positionMax.z; z++)
                     {
-                        var area = planet.Areas[x, y, z];
+                        var area = planet.AreaGrid[x, y, z];
 
-                        foreach (var c in area.creatures)
+                        foreach (var po in area.planetObjects)
                         {
-                            if (c != this)
+                            var c = po.creature;
+
+                            if (c != null && c != this)
                             {
                                 c.energy -= 0.25f * Mathf.Max(0.0f, length - Vector3.Distance(c.transform.position, transform.position));
                             }

@@ -1,21 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Shark : Animal
+public class Shark : Creature
 {
-    PlanetObject planetObject;
     float angle;
 
-    void Start()
-    {
-        planetObject = GetComponent<PlanetObject>();
-    }
-
-    void FixedUpdate()
+    public override void ManagedUpdate()
     {
         angle += 1f;
-        var planet = planetObject.planet;
-
         transform.rotation = Quaternion.AngleAxis(angle, transform.position.normalized) * Quaternion.FromToRotation(Vector3.up, transform.position.normalized);
 
         transform.position += 0.1f * transform.forward;

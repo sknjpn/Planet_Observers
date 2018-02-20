@@ -7,6 +7,7 @@ public class Planet : MonoBehaviour
     [SerializeField] float maximumHeight = 24.0f;
     [SerializeField] float waterHeight = 16.0f;
     [SerializeField] float areaSize = 0.5f;
+    int frameCount;
     Area[,,] areaGrid;
     List<PlanetObject> planetObjects = new List<PlanetObject>();
 
@@ -36,12 +37,15 @@ public class Planet : MonoBehaviour
 
     void FixedUpdate()
     {
-        var timeSpeed = 5;
-
-        for (var i = Time.frameCount % timeSpeed; i < planetObjects.Count; i += timeSpeed)
+        foreach (var planetObject in planetObjects)
         {
-            if (i < planetObjects.Count && planetObjects[i].plant != null) { planetObjects[i].plant.UpdatePlant(); }
+            if(frameCount % planetObject.updateInterval == 0)
+            {
+                planetObject.ManagedUpdate(); planetObject.age++;
+            }
         }
+
+        frameCount++;
     }
 
     public Area GetArea(Vector3 _position)

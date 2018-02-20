@@ -1,18 +1,13 @@
-﻿using UnityEngine;
-
-[RequireComponent(typeof(PlanetObject))]
-public class Creature : MonoBehaviour
+﻿public class Creature : PlanetObject
 {
-    protected float energy;
-    protected int age;
-
-    public float Height { get { return transform.position.magnitude; } }
-    public float Energy { get { return energy; } set { energy = value; } }
-
-    protected Creature MakeChild()
+    public float energy;
+    
+    public Creature MakeChild()
     {
         var c = Instantiate(this, transform.parent);
 
+        c.age = 0;
+        c.energy = 0;
         c.name = name;
 
         return c;

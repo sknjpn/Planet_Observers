@@ -1,41 +1,22 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
-public sealed class PlanetObject : MonoBehaviour
+[RequireComponent(typeof(Attacher))]
+public class PlanetObject : MonoBehaviour
 {
-    [HideInInspector] public Planet planet;
+    public int age = 0;
+    public int updateInterval = 1;
     [HideInInspector] public Area area;
+    [HideInInspector] public Planet planet;
     [HideInInspector] public Creature creature;
-    [HideInInspector] public Plant plant;
-    [HideInInspector] public Animal animal;
     [HideInInspector] public Clematis clematis;
 
-    void Awake()
-    {
-        planet = GetComponentInParent<Planet>();
-        creature = GetComponent<Creature>();
-        plant = GetComponent<Plant>();
-        animal = GetComponent<Animal>();
-        clematis = GetComponent<Clematis>();
-    }
+    public float Height { get { return transform.position.magnitude; } }
 
-    void Start()
-    {
-        planet.PlanetObjects.Add(this);
+    public virtual void ManagedUpdate() { }
 
-        area = planet.GetArea(transform.position);
-
-        if (area != null) { area.AddPlanetObject(this); }
-    }
-
-    void OnDestroy()
-    {
-        planet.PlanetObjects.Remove(this);
-
-        if (area != null) { area.RemovePlanetObject(this); }
-    }
-
-    public void ForEachToNear(float _maxDistance, Action<PlanetObject> _action)
+    public void ForEach(float _maxDistance, Action<PlanetObject> _action)
     {
         var positionMin = planet.GetArea(transform.position - _maxDistance * Vector3.one).position;
         var positionMax = planet.GetArea(transform.position + _maxDistance * Vector3.one).position;
@@ -50,6 +31,25 @@ public sealed class PlanetObject : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool Any(float _maxDistance, Func<PlanetObject, bool> _action)
+    {
+        var positionMin = planet.GetArea(transform.position - _maxDistance * Vector3.one).position;
+        var positionMax = planet.GetArea(transform.position + _maxDistance * Vector3.one).position;
+
+        for (var x = positionMin.x; x <= positionMax.x; x++)
+        {
+            for (var y = positionMin.y; y <= positionMax.y; y++)
+            {
+                for (var z = positionMin.z; z <= positionMax.z; z++)
+                {
+                    if (planet.AreaGrid[x, y, z].planetObjects.Any(_action)) { return true; }
+                }
+            }
+        }
+
+        return false;
     }
 
     public static float Distance(PlanetObject _a, PlanetObject _b)
